@@ -9,14 +9,18 @@ let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
 document.getElementById('generate').addEventListener('click', submitData);
 
 function submitData() {
+    const country = document.getElementById('country').value;
     const zipCode = document.getElementById('zip').value;
     const userRes = document.getElementById('feelings').value;
-    const baseURL = `http://api.openweathermap.org/data/2.5/weather?q=${zipCode}&APPID=53ab2019377dcd8259f3e7f3863802ce`;
+    const baseURL = `http://api.openweathermap.org/data/2.5/weather?q=${country},${zipCode}&appid=${key}`;
+    // const baseURL = `http://api.openweathermap.org/data/2.5/forecast/daily?zip=${zipCode}&appid=${key}`;
 
     // to get data from api using get method
     getWeather(baseURL).then((res) => {
+        console.log(res);
         // to update data which coming from getWeather function
-        postWeather('http://localhost:8000/UpdateData', { tempreature: res.main.temp, date: newDate, userReasponse: userRes }).then((r) => {
+        postWeather('http://localhost:8000/UpdateData', 
+        { tempreature: res.main.temp, date: newDate, userReasponse: userRes }).then((r) => {
             // to get data from server api 
             updateDta()
         })
